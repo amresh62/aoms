@@ -36,8 +36,8 @@ const App: React.FC = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
             <Route path="/" element={<ProtectedRoute element={<Dashboard />} />} />
-            <Route path="/offboarding" element={<ProtectedRoute element={<OffboardingList />} requiredRole="USER" />} />
-            <Route path="/offboarding/:id" element={<ProtectedRoute element={<OffboardingDetails />} requiredRole="USER" />} />
+            <Route path="/offboarding" element={<ProtectedRoute element={<OffboardingList />}  />} />
+            <Route path="/offboarding/:id" element={<ProtectedRoute element={<OffboardingDetails />} />} />
             <Route path="/tasks" element={<ProtectedRoute element={<TaskManagement />} />} />
             <Route path="/assets" element={<ProtectedRoute element={<AssetReturns />} />} />
             <Route path="/interviews" element={<ProtectedRoute element={<ExitInterviews />} />} />

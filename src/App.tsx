@@ -1,26 +1,36 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import AssetReturns from './components/AssetReturns';
+import AuditLogs from './components/AuditLogs';
+import Dashboard from './components/Dashboard';
+import ExitInterviews from './components/ExitInterviews';
+import Header from './components/Header';
+import OffboardingList from './components/OffboardingList';
+import Settings from './components/Settings';
+import TaskManagement from './components/TaskManagement';
+import OffboardingDetails from './pages/OffboardingDetails/page';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header />
+      <div className='container'>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/offboarding" element={<OffboardingList />} />
+            <Route path="/offboarding/:id" element={<OffboardingDetails />} />
+            <Route path="/tasks" element={<TaskManagement />} />
+            <Route path="/assets" element={<AssetReturns />} />
+            <Route path="/interviews" element={<ExitInterviews />} />
+            <Route path="/audit" element={<AuditLogs />} />
+            <Route path="/settings" element={<Settings />} />
+          </Routes>
+        </Router>
+      </div>
+    </>
   );
-}
-
+};
 export default App;

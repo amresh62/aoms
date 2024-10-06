@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { OffboardingProcess } from '../types/types';
+import { fetchWithCredentials } from '../utils/api';
 import InitiateOffboardingModal from './InitiateOffboardingModal';
 
-const ApiUrl = process.env.REACT_APP_API_URL;
 
 const OffboardingList: React.FC = () => {
     const [processes, setProcesses] = useState<OffboardingProcess[]>([]);
@@ -12,7 +12,7 @@ const OffboardingList: React.FC = () => {
 
     const fetchOffboardingProcesses = useCallback(async () => {
         try {
-            const response = await fetch(`${ApiUrl}/api/offboarding`);
+            const response = await fetchWithCredentials(`/api/offboarding`);
             const data = await response.json();
             setProcesses(data);
         } catch (error) {

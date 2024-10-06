@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Button, Card, Form } from 'react-bootstrap';
 import { Task, TaskStatus } from '../types/types';
+import { fetchWithCredentials } from '../utils/api';
 
-const ApiUrl=process.env.REACT_APP_API_URL;
+
 interface Props {
   task: Task;
   onUpdate: () => void;
@@ -13,7 +14,7 @@ const TaskItem: React.FC<Props> = ({ task, onUpdate }) => {
 
   const handleStatusChange = async (newStatus: TaskStatus) => {
     try {
-      const response = await fetch(`${ApiUrl}/api/offboarding/task/${task.id}`, {
+      const response = await fetchWithCredentials(`/api/offboarding/task/${task.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newStatus)

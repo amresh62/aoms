@@ -3,8 +3,9 @@ import { Col, Container, Row } from 'react-bootstrap';
 import TaskFilter from '../components/TaskFilter';
 import TaskList from '../components/TaskList';
 import { Department, Task, TaskStatus } from '../types/types';
+import { fetchWithCredentials } from '../utils/api';
 
-const ApiUrl = process.env.REACT_APP_API_URL;
+
 
 interface FilterState {
   status: TaskStatus | '';
@@ -21,7 +22,7 @@ const TaskManagement: React.FC = () => {
   });
 
   const fetchTasks = useCallback(async () => {
-    const response = await fetch(`${ApiUrl}/api/offboarding/tasks`, {
+    const response = await fetchWithCredentials(`/api/offboarding/tasks`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

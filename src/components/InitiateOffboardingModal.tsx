@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 import { Department, Employee } from '../types/types';
+import { fetchWithCredentials } from '../utils/api';
 
-const ApiUrl = process.env.REACT_APP_API_URL;
+
 
 interface Props {
   show: boolean;
@@ -23,7 +24,7 @@ const InitiateOffboardingModal: React.FC<Props> = ({ show, onClose, onInitiate }
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${ApiUrl}/api/offboarding/initiate?lastWorkingDate=${lastWorkingDate}`, {
+      const response = await fetchWithCredentials(`/api/offboarding/initiate?lastWorkingDate=${lastWorkingDate}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(employee)

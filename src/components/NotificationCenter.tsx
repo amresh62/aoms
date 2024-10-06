@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Badge, Button, Modal } from 'react-bootstrap';
 import { FaBell } from 'react-icons/fa';
 import { Notification } from '../types/types';
+import { fetchWithCredentials } from '../utils/api';
 
-const ApiUrl = process.env.REACT_APP_API_URL;
+
 const NotificationCenter: React.FC = () => {
     const [notifications, setNotifications] = useState<Notification[]>([]);
     const [show, setShow] = useState(false);
@@ -16,13 +17,13 @@ const NotificationCenter: React.FC = () => {
     }, []);
 
     const fetchNotifications = async () => {
-        const response = await fetch(`${ApiUrl}/api/notifications`);
+        const response = await fetchWithCredentials(`/api/notifications`);
         const data = await response.json();
         setNotifications(data);
     };
 
     const markAsRead = async (id: number) => {
-        await fetch(`${ApiUrl}/api/notifications/${id}/read`, { method: 'PUT' });
+        await fetchWithCredentials(`/api/notifications/${id}/read`, { method: 'PUT' });
         fetchNotifications();
     };
 

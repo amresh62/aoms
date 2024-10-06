@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import { AuditLog } from '../types/types';
+import { fetchWithCredentials } from '../utils/api';
 import AuditLogFilter from './AuditLogFilter';
 import AuditLogList from './AuditLogList';
-
-const ApiUrl = process.env.REACT_APP_API_URL;
 
 const AuditLogs: React.FC = () => {
     const [logs, setLogs] = useState<AuditLog[]>([]);
@@ -17,7 +16,7 @@ const AuditLogs: React.FC = () => {
             setIsLoading(true);
             setError(null);
             try {
-                const response = await fetch(`${ApiUrl}/api/audit-logs`, {
+                const response = await fetchWithCredentials(`/api/audit-logs`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({

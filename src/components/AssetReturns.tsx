@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Card, Form } from 'react-bootstrap';
 import AssetReturnList from '../components/AssetReturnList';
 import { AssetReturn, AssetReturnStatus } from '../types/types';
-
-const ApiUrl = process.env.REACT_APP_API_URL;
+import { fetchWithCredentials } from '../utils/api';
 
 const AssetReturns: React.FC = () => {
   const [assetReturns, setAssetReturns] = useState<AssetReturn[]>([]);
@@ -15,21 +14,25 @@ const AssetReturns: React.FC = () => {
   }, []);
 
   const fetchAssetReturns = async () => {
-    const response = await fetch(`${ApiUrl}/api/offboarding/asset-returns`);
+    const response = await fetchWithCredentials(`/api/offboarding/asset-returns`, {
+      credentials: 'include',
+    });
     const data = await response.json();
     setAssetReturns(data);
   };
+  
 
   const updateAssetStatus = async () => {
     if (!selectedAsset || !newStatus) return;
 
     try {
-      const response = await fetch(`${ApiUrl}/api/offboarding/asset-return/${selectedAsset}`, {
+      const response = await fetchWithCredentials(`/api/offboarding/asset-return/${selectedAsset}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(newStatus),
+        credentials: 'include',
       });
 
       if (response.ok) {

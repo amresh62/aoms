@@ -3,8 +3,9 @@ import { Button, Card } from 'react-bootstrap';
 import ExitInterviewList from '../components/ExitInterviewList';
 import ScheduleInterviewModal from '../components/ScheduleInterviewModal';
 import { ExitInterview } from '../types/types';
+import { fetchWithCredentials } from '../utils/api';
 
-const ApiUrl = process.env.REACT_APP_API_URL;
+
 const ExitInterviews: React.FC = () => {
   const [interviews, setInterviews] = useState<ExitInterview[]>([]);
   const [showModal, setShowModal] = useState(false);
@@ -15,7 +16,7 @@ const ExitInterviews: React.FC = () => {
   }, []);
 
   const fetchExitInterviews = async () => {
-    const response = await fetch(`${ApiUrl}/api/offboarding/exit-interviews`);
+    const response = await fetchWithCredentials(`/api/offboarding/exit-interviews`);
     const data = await response.json();
     console.log(data);
     setInterviews(data);

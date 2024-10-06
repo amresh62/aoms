@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { ExitInterview } from '../types/types';
+import { fetchWithCredentials } from '../utils/api';
 
 interface Props {
   show: boolean;
@@ -8,8 +9,6 @@ interface Props {
   onSchedule: (interview: ExitInterview) => void;
   id: number;
 }
-
-const ApiUrl = process.env.REACT_APP_API_URL;
 
 const ScheduleInterviewModal: React.FC<Props> = ({ show, onHide, onSchedule, id }) => {
   const [conductedBy, setConductedBy] = useState('');
@@ -28,7 +27,7 @@ const ScheduleInterviewModal: React.FC<Props> = ({ show, onHide, onSchedule, id 
       return;
     }
     try {
-      const response = await fetch(`${ApiUrl}/api/offboarding/exit-interview/${id}`, {
+      const response = await fetchWithCredentials(`/api/offboarding/exit-interview/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

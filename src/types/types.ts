@@ -90,8 +90,7 @@ export interface AssetReturn {
     conductedAt: string | null;
     feedback: string | null;
     conductedBy: Employee | null;
-  }
-  export interface Notification {
+  }  export interface Notification {
     id: number;
     message: string;
     createdAt: string;

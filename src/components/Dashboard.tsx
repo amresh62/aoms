@@ -3,6 +3,7 @@ import { Card } from 'react-bootstrap';
 import OffboardingSummary from '../components/OffboardingSummary';
 import TaskSummary from '../components/TaskSummary';
 import { OffboardingProcess, Task } from '../types/types';
+import OffboardingList from './OffboardingList';
 
 const ApiUrl = process.env.REACT_APP_API_URL;
 const Dashboard: React.FC = () => {
@@ -31,7 +32,7 @@ const Dashboard: React.FC = () => {
 
     <Card>
       <Card.Header>
-        <h2>
+        <h2 className='text-primary'>
           Dashboard
         </h2>
       </Card.Header>
@@ -42,6 +43,8 @@ const Dashboard: React.FC = () => {
           <OffboardingSummary processes={processes} />
           <TaskSummary tasks={pendingTasks} />
           </div>
+          <hr></hr>
+          <OffboardingList/>
         </Card.Text>
       </Card.Body>
     </Card>

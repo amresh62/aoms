@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { OffboardingProcess } from '../types/types';
 import TaskList from './TaskList';
 
@@ -9,13 +8,30 @@ interface Props {
 
 const OffboardingItem: React.FC<Props> = ({ process }) => {
   return (
-    <div className="offboarding-item">
-      <h3>{process.employee.firstName} {process.employee.lastName}</h3>
-      <p>Status: {process.status}</p>
-      <p>Initiation Date: {process.initiationDate}</p>
-      <p>Last Working Date: {process.lastWorkingDate}</p>
-      <TaskList tasks={process.tasks} onTaskUpdate={() => {}} />
-      <Link to={`/offboarding/${process.id}`}>View Details</Link>
+    <div className="card mb-4">
+      <div className="card-header d-flex justify-content-between align-items-center">
+        <h2 className="mb-0">{process.employee.firstName} {process.employee.lastName}</h2>
+        <span className={`badge badge-${process.status.toLowerCase() === 'completed' ? 'success' : 'warning'}`}>{process.status}</span>
+      </div>
+      <div className="card-body">
+        <div className="row mb-4">
+          <div className="col-md-3">
+            <strong>Department:</strong> {process.employee.department}
+          </div>
+          <div className="col-md-3">
+            <strong>Position:</strong> {process.employee.department}
+          </div>
+          <div className="col-md-3">
+            <strong>Initiation Date:</strong> {new Date(process.initiationDate).toLocaleDateString()}
+          </div>
+          <div className="col-md-3">
+            <strong>Last Working Date:</strong> {new Date(process.lastWorkingDate).toLocaleDateString()}
+          </div>
+        </div>
+        <div className="task-section">
+          <TaskList tasks={process.tasks} onTaskUpdate={() => {}} />
+        </div>
+      </div>
     </div>
   );
 };

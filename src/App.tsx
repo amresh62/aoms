@@ -8,17 +8,17 @@ import Dashboard from './components/Dashboard';
 import ExitInterviews from './components/ExitInterviews';
 import Header from './components/Header';
 import OffboardingList from './components/OffboardingList';
-import Settings from './components/Settings';
 import TaskManagement from './components/TaskManagement';
 import OffboardingDetails from './pages/OffboardingDetails/page';
 
 const App: React.FC = () => {
+
   return (
     <>
       <Header />
       <div className='container'>
-        <Router>
-          <Routes>
+          <Router>
+            <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/offboarding" element={<OffboardingList />} />
             <Route path="/offboarding/:id" element={<OffboardingDetails />} />
@@ -26,9 +26,8 @@ const App: React.FC = () => {
             <Route path="/assets" element={<AssetReturns />} />
             <Route path="/interviews" element={<ExitInterviews />} />
             <Route path="/audit" element={<AuditLogs />} />
-            <Route path="/settings" element={<Settings />} />
-          </Routes>
-        </Router>
+            </Routes>
+          </Router>
       </div>
     </>
   );

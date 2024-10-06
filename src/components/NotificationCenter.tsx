@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import { Badge, Button, Modal } from 'react-bootstrap';
 import { FaBell } from 'react-icons/fa';
 import { Notification } from '../types/types';
 
@@ -19,7 +19,6 @@ const NotificationCenter: React.FC = () => {
         const response = await fetch(`${ApiUrl}/api/notifications`);
         const data = await response.json();
         setNotifications(data);
-        console.log(data[0].message);
     };
 
     const markAsRead = async (id: number) => {
@@ -27,25 +26,33 @@ const NotificationCenter: React.FC = () => {
         fetchNotifications();
     };
 
+    const unreadCount = notifications.filter(n => !n.read).length;
+
     return (
         <>
-            <FaBell  onClick={handleShow} />
+            <div className="position-relative d-inline-block">
+                <FaBell onClick={handleShow} style={{ cursor: 'pointer' }} />
+                {unreadCount > 0 && (
+                    <Badge bg="danger" className="position-absolute top-0 start-100 translate-middle" style={{ fontSize: '.8em', padding: '0.25em 0.4em', minWidth: '1em', height: '1em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        {unreadCount}
+                    </Badge>
+                )}
+            </div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Notifications</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     {notifications.map(notification => (
-                        
                         <div key={notification.id}>
-                            {!notification.read ? (
+                            {!notification.read && (
                                 <>
                                     <p>{notification.message}</p>
                                     <Button className='btn btn-primary' onClick={() => markAsRead(notification.id)}>
                                         Mark as Read
                                     </Button>
                                 </>
-                            ):"No Content !"}
+                            )}
                         </div>
                     ))}
                 </Modal.Body>

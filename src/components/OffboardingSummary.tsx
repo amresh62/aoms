@@ -16,7 +16,7 @@ const OffboardingSummary: React.FC<Props> = ({ processes }) => {
     <Card style={{ width: '18rem', marginRight: '1rem' }}>
       <Card.Body>
         <Card.Title>
-        <h2 className='text-primary'>Offboarding</h2>
+        <h4 className='text-primary'>Offboarding</h4>
           </Card.Title>
         <Card.Subtitle className="mb-2 text-muted">Summary</Card.Subtitle>
         <Card.Text>

@@ -16,7 +16,7 @@ const TaskSummary: React.FC<Props> = ({ tasks }) => {
     <Card style={{ width: '18rem', marginRight: '1rem' }}>
       <Card.Body>
         <Card.Title>
-          <h2 className='text-primary'>Task</h2>
+          <h4 className='text-primary'>Task</h4>
           </Card.Title>
         <Card.Subtitle className="mb-2 text-muted">Summary</Card.Subtitle>
         <Card.Text>

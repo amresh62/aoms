@@ -1,34 +1,65 @@
 import React, { useEffect, useState } from 'react';
-import AuditLogFilter from '../components/AuditLogFilter';
-import AuditLogList from '../components/AuditLogList';
+import { Card } from 'react-bootstrap';
 import { AuditLog } from '../types/types';
+import AuditLogFilter from './AuditLogFilter';
+import AuditLogList from './AuditLogList';
 
 const ApiUrl = process.env.REACT_APP_API_URL;
 
 const AuditLogs: React.FC = () => {
     const [logs, setLogs] = useState<AuditLog[]>([]);
     const [filters, setFilters] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchAuditLogs = async () => {
-            const response = await fetch(`${ApiUrl}/api/audit-logs`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(filters)
-            });
-            const data = await response.json();
-            setLogs(data);
-        };
-
-        fetchAuditLogs();
+            setIsLoading(true);
+            setError(null);
+            try {
+                const response = await fetch(`${ApiUrl}/api/audit-logs`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        startDate: (filters as any).startDate ? new Date((filters as any).startDate).toISOString() : null,
+                        endDate: (filters as any).endDate ? new Date((filters as any).endDate).toISOString() : null,
+                        action: (filters as any).action
+                    })
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to fetch audit logs');
+                }
+                const data = await response.json();
+                setLogs(Array.isArray(data) ? data : []);
+            } catch (err) {
+                setError('An error occurred while fetching audit logs');
+                console.error(err);
+            } finally {
+                setIsLoading(false);
+            }
+        }; fetchAuditLogs();
     }, [filters]);
 
     return (
-        <div className="audit-logs">
-            <h1>Audit Logs</h1>
-            <AuditLogFilter onFilterChange={setFilters} />
-            <AuditLogList logs={logs} />
-        </div>
+        <Card>
+            <Card.Header>
+                <h2 className='text-primary'>
+                    Audit Logs
+                </h2>
+            </Card.Header>
+            <Card.Body>
+                <Card.Title></Card.Title>
+                <Card.Text>
+                    <AuditLogFilter onFilterChange={setFilters} />
+                    {isLoading && <p>Loading...</p>}
+                    {error && <p className="text-danger">{error}</p>}
+                    {!isLoading && !error && <AuditLogList logs={logs} />}
+                </Card.Text>
+            </Card.Body>
+        </Card>
+
+
     );
 };
+
 export default AuditLogs;

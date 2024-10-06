@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Button, Card, Form } from 'react-bootstrap';
 import { Task, TaskStatus } from '../types/types';
 
 const ApiUrl=process.env.REACT_APP_API_URL;
@@ -8,12 +9,14 @@ interface Props {
 }
 
 const TaskItem: React.FC<Props> = ({ task, onUpdate }) => {
+  const [selectedStatus, setSelectedStatus] = useState<TaskStatus>(task.status as TaskStatus);
+
   const handleStatusChange = async (newStatus: TaskStatus) => {
     try {
       const response = await fetch(`${ApiUrl}/api/offboarding/task/${task.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: newStatus })
+        body: JSON.stringify(newStatus)
       });
       if (response.ok) {
         onUpdate();
@@ -23,21 +26,31 @@ const TaskItem: React.FC<Props> = ({ task, onUpdate }) => {
     }
   };
 
+  const handleUpdateClick = () => {
+    handleStatusChange(selectedStatus);
+  };
+
   return (
-    <div className="task-item">
-      <h3>{task.name}</h3>
-      <p>Status: {task.status}</p>
-      <p>Department: {task.department}</p>
-      {task.assignedTo && <p>Assigned to: {task.assignedTo.firstName} {task.assignedTo.lastName}</p>}
-      <select 
-        value={task.status} 
-        onChange={(e) => handleStatusChange(e.target.value as TaskStatus)}
-      >
-        {Object.values(TaskStatus).map((status: TaskStatus) => (
-          <option key={status.toString()} value={status}>{status}</option>
-        ))}
-      </select>
-    </div>
+    <Card className="task-item mb-3">
+      <Card.Body>
+        <Card.Title>{task.name}</Card.Title>
+        <Card.Text>
+          <strong>Status:</strong> {task.status}<br />
+          <strong>Department:</strong> {task.department}<br />
+          {task.assignedTo && <><strong>Assigned to:</strong> {task.assignedTo.firstName} {task.assignedTo.lastName}<br /></>}
+        </Card.Text>
+        <Form.Select 
+          value={selectedStatus} 
+          onChange={(e) => setSelectedStatus(e.target.value as TaskStatus)}
+          className="mb-2"
+        >
+          {Object.values(TaskStatus).map((status: TaskStatus) => (
+            <option key={status.toString()} value={status}>{status}</option>
+          ))}
+        </Form.Select>
+        <Button variant="primary" onClick={handleUpdateClick}>Update</Button>
+      </Card.Body>
+    </Card>
   );
 };
 

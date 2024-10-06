@@ -1,4 +1,5 @@
 import React from 'react';
+import { Table } from 'react-bootstrap';
 import { AuditLog } from '../types/types';
 
 interface Props {
@@ -6,8 +7,12 @@ interface Props {
 }
 
 const AuditLogList: React.FC<Props> = ({ logs }) => {
+  if (!Array.isArray(logs) || logs.length === 0) {
+    return <div>No logs available</div>;
+  }
+
   return (
-    <table>
+    <Table striped bordered hover responsive>
       <thead>
         <tr>
           <th>Timestamp</th>
@@ -26,7 +31,7 @@ const AuditLogList: React.FC<Props> = ({ logs }) => {
           </tr>
         ))}
       </tbody>
-    </table>
+    </Table>
   );
 };
 
